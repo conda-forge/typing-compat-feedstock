@@ -15,24 +15,26 @@ source:
 build:
   number: 1
   noarch: python
-  script: {{ PYTHON }} -m pip install . -vv
+  script:
+    - {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation --disable-pip-version-check
 
 requirements:
   host:
     - pip
     - python {{ python_min }}
+    - setuptools
   run:
     - python >={{ python_min }}
     - typing
 
 test:
+  requires:
+    - pip
+    - python {{ python_min }}
   imports:
     - typing_compat
   commands:
     - pip check
-  requires:
-    - pip
-    - python {{ python_min }}
 
 about:
   home: https://github.com/rossmacarthur/typing-compat
